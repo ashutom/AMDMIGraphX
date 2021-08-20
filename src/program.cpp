@@ -281,7 +281,7 @@ std::vector<argument> program::eval(parameter_map params) const
 {
     auto& ctx = this->impl->ctx;
 #ifndef NDEBUG
-    auto sctx          = ctx;
+    auto sctx = ctx;
     std::cout << "orig_ctx_address = " << std::addressof(sctx) << std::endl;
     std::cout << "orig_ctx = ";
     print_ctx(sctx);
