@@ -134,7 +134,9 @@ struct context
     friend bool is_shared(const context& private_detail_x, const context& private_detail_y)
     {
         std::cout << "ptr1 = " << private_detail_x.private_detail_te_handle_mem_var;
-        std::cout << ", save_ptr = " << private_detail_y.private_detail_te_handle_mem_var << std::endl << std::endl;
+        std::cout << ", save_ptr = " << private_detail_y.private_detail_te_handle_mem_var
+                  << std::endl
+                  << std::endl;
 
         return private_detail_x.private_detail_te_handle_mem_var ==
                private_detail_y.private_detail_te_handle_mem_var;

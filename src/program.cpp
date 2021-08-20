@@ -238,7 +238,7 @@ std::vector<argument> generic_eval(const module* mod,
                     return results[i];
                 });
 
-            context* ctx_ptr = std::addressof(ctx);
+            context* ctx_ptr     = std::addressof(ctx);
             const auto& mod_args = ins->module_inputs();
             auto module_eval     = [&](module_ref smod,
                                    const std::unordered_map<std::string, argument>& inputs) {
