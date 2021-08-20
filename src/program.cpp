@@ -1,3 +1,4 @@
+#include "migraphx/context.hpp"
 #include <migraphx/program.hpp>
 #include <migraphx/stringutils.hpp>
 #include <migraphx/instruction.hpp>
@@ -237,13 +238,20 @@ std::vector<argument> generic_eval(const module* mod,
                     return results[i];
                 });
 
+            context* ctx_ptr = std::addressof(ctx);
             const auto& mod_args = ins->module_inputs();
             auto module_eval     = [&](module_ref smod,
                                    const std::unordered_map<std::string, argument>& inputs) {
-                return generic_eval(smod, ctx, inputs, results, trace);
+                std::cout << "recursive = ";
+                print_ctx(*ctx_ptr);
+                std::cout << std::endl;
+                return generic_eval(smod, *ctx_ptr, inputs, results, trace);
             };
 
             results.emplace(ins, trace(ins, [&] {
+                                std::cout << "before compute, ctx = ";
+                                print_ctx(ctx);
+                                std::cout << std::endl;
                                 return ins->normalized_operator().compute(
                                     ctx, ins->get_shape(), values, mod_args, module_eval);
                             }));

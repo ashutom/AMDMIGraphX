@@ -1,6 +1,7 @@
 #ifndef MIGRAPHX_GUARD_MIGRAPHLIB_OPERAND_HPP
 #define MIGRAPHX_GUARD_MIGRAPHLIB_OPERAND_HPP
 
+#include "migraphx/context.hpp"
 #include <cassert>
 #include <string>
 #include <functional>
@@ -265,6 +266,14 @@ auto compute_op(rank<4>,
                 const std::vector<module_ref>& module_args,
                 F f) -> decltype(x.compute(auto_any_cast(ctx), output, inputs, module_args, f))
 {
+    auto ctx1 = auto_any_cast(ctx);
+    std::cout << "ctx1 = ";
+    print_ctx(ctx1);
+    std::cout << std::endl;
+    auto ctx2 = auto_any_cast(ctx);
+    std::cout << "ctx2 = ";
+    print_ctx(ctx2);
+    std::cout << std::endl;
     return x.compute(auto_any_cast(ctx), output, inputs, module_args, f);
 }
 
