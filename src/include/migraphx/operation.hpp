@@ -266,6 +266,9 @@ auto compute_op(rank<4>,
                 const std::vector<module_ref>& module_args,
                 F f) -> decltype(x.compute(auto_any_cast(ctx), output, inputs, module_args, f))
 {
+    std::cout << "before_auto_cast = ";
+    print_ctx(ctx);
+    std::cout << std::endl;
     auto ctx1 = auto_any_cast(ctx);
     std::cout << "ctx1 = ";
     print_ctx(ctx1);

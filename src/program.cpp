@@ -1,4 +1,5 @@
 #include "migraphx/context.hpp"
+#include <memory>
 #include <migraphx/program.hpp>
 #include <migraphx/stringutils.hpp>
 #include <migraphx/instruction.hpp>
@@ -238,14 +239,19 @@ std::vector<argument> generic_eval(const module* mod,
                     return results[i];
                 });
 
-            context* ctx_ptr     = std::addressof(ctx);
+            std::cout << "address_of_ctx = " << std::addressof(ctx) << std::endl;
+            std::cout << "ctx = ";
+            print_ctx(ctx);
+            std::cout << std::endl;
+            // context* ctx_ptr     = std::addressof(ctx);
             const auto& mod_args = ins->module_inputs();
             auto module_eval     = [&](module_ref smod,
                                    const std::unordered_map<std::string, argument>& inputs) {
+                std::cout << "address_of_ctx_in_lamba = " << std::addressof(ctx) << std::endl;
                 std::cout << "recursive = ";
-                print_ctx(*ctx_ptr);
+                print_ctx(ctx);
                 std::cout << std::endl;
-                return generic_eval(smod, *ctx_ptr, inputs, results, trace);
+                return generic_eval(smod, ctx, inputs, results, trace);
             };
 
             results.emplace(ins, trace(ins, [&] {
@@ -276,6 +282,10 @@ std::vector<argument> program::eval(parameter_map params) const
     auto& ctx = this->impl->ctx;
 #ifndef NDEBUG
     auto sctx          = ctx;
+    std::cout << "orig_ctx_address = " << std::addressof(sctx) << std::endl;
+    std::cout << "orig_ctx = ";
+    print_ctx(sctx);
+    std::cout << std::endl;
     auto check_context = [&](auto f) {
         assert(is_shared(ctx, sctx));
         auto x = f();
